@@ -6,7 +6,11 @@ SOURCE_DIR=$(realpath $(dirname "$SOURCE"))
 
 source $SOURCE_DIR/env.sh
 
-docker run --rm --detach --name nginx --net=host \
+docker stop nginx 2> /dev/null
+docker rm nginx 2> /dev/null
+
+docker run --detach --name nginx --net=host \
+  --restart=always \
   -v $SOURCE_DIR/log:/var/log/nginx/ \
   -v $SOURCE_DIR/html:/usr/share/nginx/html \
   -v $SOURCE_DIR/etc:/etc/nginx \
